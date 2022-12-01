@@ -1,6 +1,10 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
+import { UsersModule } from './users/users.module';
+import { CommentModule } from './comment/comment.module';
+import { OrderModule } from './order/order.module';
+import { EquipmentModule } from './equipment/equipment.module';
 
 @Module({
   imports: [
@@ -18,6 +22,10 @@ import { SequelizeModule } from '@nestjs/sequelize';
       autoLoadModels: true,
       logging: false,
     }),
+    UsersModule,
+    CommentModule,
+    OrderModule,
+    EquipmentModule,
   ],
   controllers: [],
   providers: [],
