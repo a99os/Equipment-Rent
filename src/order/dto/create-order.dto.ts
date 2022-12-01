@@ -1,7 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDate, IsNotEmpty, IsNumber } from 'class-validator';
+import {
+  IsDate,
+  IsDateString,
+  isDateString,
+  IsNotEmpty,
+  IsNumber,
+} from 'class-validator';
 
-export class CreateOrderrDto {
+export class CreateOrderDto {
   @ApiProperty({ example: 1, description: 'Qurilma id si' })
   @IsNumber()
   @IsNotEmpty()
@@ -11,13 +17,10 @@ export class CreateOrderrDto {
   @IsNotEmpty()
   readonly user_id: number;
   @ApiProperty({ example: '2022-01-19', description: 'Berilgan vaqti' })
-  @IsDate()
+  @IsDateString()
   readonly start_date: Date;
   @ApiProperty({ example: '2022-01-22', description: 'Olish vaqti' })
-  @IsDate()
+  @IsDateString()
   readonly end_date: Date;
-  @ApiProperty({ example: '123000', description: 'Umumiy summasi' })
-  @IsNumber()
-  @IsNotEmpty()
-  readonly total_price: number;
+  total_price: number;
 }

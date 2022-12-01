@@ -7,6 +7,7 @@ import { Comment } from 'src/comment/comment.model';
 import { Order } from 'src/order/order.model';
 import { Equipment } from 'src/equipment/equipment.model';
 import { AuthModule } from 'src/auth/auth.module';
+import { EquipmentModule } from 'src/equipment/equipment.module';
 
 @Module({
   imports: [

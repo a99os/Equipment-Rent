@@ -54,7 +54,7 @@ export class Order extends Model<Order, OrderCreationAttrs> {
     type: DataType.DATE,
     defaultValue: new Date(),
   })
-  sart_date: Date;
+  start_date: Date;
   //=====================================================================
   @ApiProperty({
     example: '2022-04-01',
