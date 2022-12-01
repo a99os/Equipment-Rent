@@ -1,11 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
   BelongsTo,
-  BelongsToMany,
+  BelongsToAssociation,
   Column,
   DataType,
   ForeignKey,
   HasMany,
+  HasOne,
   Model,
   Table,
 } from 'sequelize-typescript';
@@ -74,15 +75,15 @@ export class Equipment extends Model<Equipment, EquipmentCreationAttrs> {
   })
   user_id: number;
 
+  @BelongsTo(() => User)
+  user: User;
+
   @ApiProperty({ example: 'true', description: 'Qurilma faolligi' })
   @Column({
     type: DataType.BOOLEAN,
     defaultValue: true,
   })
   is_active: number;
-
-  @BelongsTo(() => User)
-  renter: User;
 
   @HasMany(() => Comment)
   comments: Comment[];

@@ -22,4 +22,16 @@ export class FilesService {
       );
     }
   }
+  async deleteFile(fileName: string) {
+    try {
+      const filePath = path.resolve(__dirname, '..', 'images');
+      if (!fs.existsSync(filePath)) {
+        fs.mkdirSync(filePath, { recursive: true });
+      }
+      fs.unlinkSync(path.join(filePath, fileName));
+      return true;
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }

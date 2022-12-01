@@ -1,23 +1,20 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsNumber, IsString, Matches } from 'class-validator';
+import { IsOptional, IsNumber, IsString, Matches } from 'class-validator';
 
-export class CreateEquipmentDto {
+export class UpdateEquipmentDto {
   @ApiProperty({ example: 'Perfarator', description: 'Qurilma nomi' })
+  @IsOptional()
   @IsString()
-  @IsNotEmpty()
   readonly name: string;
   @ApiProperty({
     example: 'Perfarator haqida ma`lumot',
     description: 'Qurilma haqida ma`lumot',
   })
+  @IsOptional()
   @IsString()
   readonly description: string;
+  @IsOptional()
   @ApiProperty({ example: '100000', description: 'Qurilma narxi' })
   @Matches(/^[0-9]/i, { message: 'Narx son bo`lishi kerak' })
-  @IsNotEmpty()
   readonly price: number;
-  @Matches(/^[0-9]/i, { message: 'User Id son bo`lishi kerak' })
-  @ApiProperty({ example: 1, description: 'User ID' })
-  @IsNotEmpty()
-  readonly user_id: number;
 }
