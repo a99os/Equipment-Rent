@@ -16,6 +16,7 @@ import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
 import { UserSelfGuard } from 'src/guards/user-self.guard';
 import { ActivateUsersDto } from './dto/activate-user.dto';
 import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './users.model';
 import { UsersService } from './users.service';
 
@@ -86,5 +87,29 @@ export class UsersController {
   @Delete('admin/:id')
   deleteAdminUser(@Param('id') id: number) {
     return this.userService.deleteUser(id);
+  }
+
+  @ApiOperation({ summary: 'Foydalanuvchi ma`lumotlarini yangilash' })
+  @ApiResponse({ status: 201, type: User })
+  @UseGuards(UserSelfGuard)
+  @UseGuards(JwtAuthGuard)
+  @Put('/:id')
+  updateUser(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto) {
+    console.log('contr');
+    return this.userService.updateUser(updateUserDto, id);
+  }
+  @ApiOperation({
+    summary: 'Foydalanuvchi admin tomonidan ma`lumotlarini yangilash',
+  })
+  @ApiResponse({ status: 201, type: User })
+  @UseGuards(AdminGuard)
+  @UseGuards(JwtAuthGuard)
+  @Put('admin/:id')
+  updateAdminUser(
+    @Param('id') id: number,
+    @Body() updateUserDto: UpdateUserDto,
+  ) {
+    console.log('contr');
+    return this.userService.updateUser(updateUserDto, id);
   }
 }

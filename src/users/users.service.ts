@@ -1,8 +1,15 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { ActivateUsersDto } from './dto/activate-user.dto';
 import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './users.model';
+import * as bcrypt from 'bcryptjs';
 
 @Injectable()
 export class UsersService {
@@ -75,5 +82,50 @@ export class UsersService {
     }
     await this.userRepository.destroy({ where: { id } });
     return user;
+  }
+  async updateUser(updateUserDto: UpdateUserDto, id: number) {
+    try {
+      const user = await this.userRepository.findByPk(id);
+      if (!user) {
+        throw new HttpException('Foydalunvchi topilmadi', HttpStatus.NOT_FOUND);
+      }
+      if (updateUserDto.email) {
+        const userEmail = await this.userRepository.findOne({
+          where: { email: updateUserDto.email },
+        });
+        if (userEmail && userEmail.id != id) {
+          throw new HttpException(
+            'Bunday email mavjud',
+            HttpStatus.BAD_REQUEST,
+          );
+        }
+      }
+      if (updateUserDto.phone_number) {
+        const userPhone = await this.userRepository.findOne({
+          where: { phone_number: updateUserDto.phone_number },
+        });
+        if (userPhone && userPhone.id != id) {
+          throw new HttpException(
+            'Bunday phone number mavjud',
+            HttpStatus.BAD_REQUEST,
+          );
+        }
+      }
+      user.name = updateUserDto.name || user.name;
+      user.email = updateUserDto.email || user.email;
+      user.phone_number = updateUserDto.phone_number || user.phone_number;
+      user.location = updateUserDto.location || user.location;
+      user.password = updateUserDto.password
+        ? bcrypt.hashSync(updateUserDto.password, 7)
+        : user.password;
+
+      await user.save();
+      return user;
+    } catch (error) {
+      console.log(error);
+      throw new BadRequestException({
+        message: error.message,
+      });
+    }
   }
 }
