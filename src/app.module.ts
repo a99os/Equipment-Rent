@@ -9,11 +9,16 @@ import { User } from './users/users.model';
 import { Order } from './order/order.model';
 import { Comment } from './comment/comment.model';
 import { Equipment } from './equipment/equipment.model';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { resolve } from 'path';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       envFilePath: `.${process.env.NODE_ENV}.env`,
+    }),
+    ServeStaticModule.forRoot({
+      rootPath: resolve(__dirname, 'images'),
     }),
     SequelizeModule.forRoot({
       dialect: 'postgres',

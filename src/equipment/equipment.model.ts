@@ -14,7 +14,7 @@ import { User } from 'src/users/users.model';
 
 interface EquipmentCreationAttrs {
   name: string;
-  price: string;
+  price: number;
   image: string;
   total_rating: number;
   user_id: number;
