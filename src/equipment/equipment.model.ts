@@ -43,7 +43,7 @@ export class Equipment extends Model<Equipment, EquipmentCreationAttrs> {
     description: 'Qurilma haqida ma`lumot',
   })
   @Column({
-    type: DataType.DOUBLE,
+    type: DataType.STRING,
   })
   description: string;
 
