@@ -56,6 +56,7 @@ export class User extends Model<User, UserCreationAttrs> {
   })
   @Column({
     type: DataType.STRING,
+    unique: true,
     allowNull: false,
   })
   phone_number: string;
@@ -88,7 +89,11 @@ export class User extends Model<User, UserCreationAttrs> {
     defaultValue: false,
   })
   is_active: boolean;
-
+  @ApiProperty({
+    example:
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzMsImlzX2FkbWluIjp0cnVlLCJpc19hY3RpdmUiOnRydWUsImlhdCI6MTY2OTkxMjIxNSwiZXhwIjoxNjY5OTk4NjE1fQ.re5e0LvhhsFwRnnsLlASkZPs1f8hNAvnJGKOJLZq08Q',
+    description: 'Foydalanuvchi tokeni',
+  })
   @Column({
     type: DataType.STRING,
   })

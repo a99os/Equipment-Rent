@@ -1,5 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty, IsString, Matches } from 'class-validator';
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  Matches,
+} from 'class-validator';
 
 export class CreateUserDto {
   @ApiProperty({ example: 'User1', description: 'Foydalanuvchi ismi' })
@@ -19,7 +25,9 @@ export class CreateUserDto {
     example: 'dHB223@#Bsh',
     description: 'Foydalanuvchi paroli',
   })
-  @Matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).{6,64}$/gm, {
+  @IsNotEmpty()
+  @IsString()
+  @Matches(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,64}$/i, {
     message:
       'Password must be between 6 and 64 characters long with 1 special character and capital character each',
   })
@@ -30,7 +38,8 @@ export class CreateUserDto {
     description: 'Foydalanuvchi telefon raqami',
   })
   @IsNotEmpty()
-  @Matches(/^998([378]{2}|(9[013-57-9]))\d{7}$/gm, {
+  @Matches(/^998([378]{2}|(9[013-57-9]))\d{7}$/i, {
+    each: true,
     message: 'Phone number must be Uzbekistan number',
   })
   readonly phone_number: string;
@@ -38,6 +47,7 @@ export class CreateUserDto {
     example: 'long:45.3545 lat:12.3244',
     description: 'Foydalanuvchi locatsiyasi',
   })
+  @IsOptional()
   @IsString()
   readonly location: string;
 }
