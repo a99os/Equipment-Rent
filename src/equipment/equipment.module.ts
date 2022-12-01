@@ -1,6 +1,6 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
+import { JwtModule } from '@nestjs/jwt';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { AuthModule } from 'src/auth/auth.module';
 import { Comment } from 'src/comment/comment.model';
 import { FilesModule } from 'src/files/files.module';
 import { Order } from 'src/order/order.model';
@@ -13,9 +13,10 @@ import { EquipmentService } from './equipment.service';
   imports: [
     SequelizeModule.forFeature([User, Comment, Order, Equipment]),
     FilesModule,
-    AuthModule,
+    JwtModule,
   ],
   controllers: [EquipmentController],
   providers: [EquipmentService],
+  exports: [EquipmentService, EquipmentModule],
 })
 export class EquipmentModule {}

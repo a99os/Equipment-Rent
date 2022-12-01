@@ -11,10 +11,10 @@ import { Observable } from 'rxjs';
 import { Equipment } from 'src/equipment/equipment.model';
 
 @Injectable()
-export class UserSelfGuard implements CanActivate {
+export class RentSelfGuard implements CanActivate {
   constructor(
     private readonly jwtService: JwtService,
-    private readonly equipmentRepository: Equipment,
+    private readonly equipmentRepository: typeof Equipment,
   ) {}
   canActivate(
     context: ExecutionContext,
@@ -22,8 +22,8 @@ export class UserSelfGuard implements CanActivate {
     try {
       console.log('User');
       const req = context.switchToHttp().getRequest();
-
-      if (String(req.user.id) != req.params.id) {
+      const equipment = this.equipmentRepository.findByPk(req.params.id);
+      if (!equipment || String(req.user.id) != equipment['user_id']) {
         throw new UnauthorizedException({
           message: 'Ruhsat etilmagan',
         });

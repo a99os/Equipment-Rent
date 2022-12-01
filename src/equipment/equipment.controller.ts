@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Post,
@@ -13,6 +14,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AdminGuard } from 'src/guards/admin.guard';
 import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
+import { RentSelfGuard } from 'src/guards/rent.guard';
 import { UserSelfGuard } from 'src/guards/user-self.guard';
 import { CreateEquipmentDto } from './dto/create-equipment.to';
 import { UpdateEquipmentDto } from './dto/update-equipment.dto';
@@ -24,7 +26,7 @@ export class EquipmentController {
   constructor(private readonly equipmentService: EquipmentService) {}
   @ApiOperation({ summary: 'Uskuna qo`shish' })
   @ApiResponse({ status: 200, type: Equipment })
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Post()
   @UseInterceptors(FileInterceptor('image'))
   create(
@@ -36,7 +38,7 @@ export class EquipmentController {
 
   @ApiOperation({ summary: 'Uskunalarni olish' })
   @ApiResponse({ status: 200, type: Equipment })
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Get()
   getAll() {
     return this.equipmentService.getEquepments();
@@ -44,15 +46,21 @@ export class EquipmentController {
 
   @ApiOperation({ summary: 'Uskunani yangilash' })
   @ApiResponse({ status: 200, type: Equipment })
-  // @UseGuards(UserSelfGuard)
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(RentSelfGuard)
+  // @UseGuards(JwtAuthGuard)
   @Put('/:id')
   @UseInterceptors(FileInterceptor('image'))
   update(
     @Body() updateEquipmentDto: UpdateEquipmentDto,
     @UploadedFile() image,
-    @Param() id: object,
+    @Param('id') id: number,
   ) {
-    return this.equipmentService.update(updateEquipmentDto, image, id['id']);
+    return this.equipmentService.update(updateEquipmentDto, image, id);
+  }
+  @ApiOperation({ summary: 'Uskunani o`chirish' })
+  @ApiResponse({ status: 200, type: Equipment })
+  @Delete('/:id')
+  delete(@Param('id') id: number) {
+    return this.equipmentService.delete(id);
   }
 }

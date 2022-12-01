@@ -13,7 +13,6 @@ export class EquipmentService {
   ) {}
 
   async create(createEquipmentDto: CreateEquipmentDto, image: any) {
-    console.log(image);
     const fileName = await this.fileService.createFile(image);
     const equipment = await this.equipmentRepository.create({
       total_rating: 0,
@@ -38,13 +37,22 @@ export class EquipmentService {
     equipment.description =
       updateEquipmentDto.description || equipment.description;
     equipment.price = +updateEquipmentDto.price || equipment.price;
-    console.log(image);
     if (image) {
       await this.fileService.deleteFile(equipment.image);
       equipment.image = await this.fileService.createFile(image);
     }
 
     await equipment.save();
+    return equipment;
+  }
+
+  async delete(id: number) {
+    const equipment = await this.equipmentRepository.findByPk(id);
+    if (!equipment) {
+      throw new HttpException('Equipment topilmadi', HttpStatus.NOT_FOUND);
+    }
+    await this.equipmentRepository.destroy({ where: { id } });
+    await this.fileService.deleteFile(equipment.image);
     return equipment;
   }
 }
