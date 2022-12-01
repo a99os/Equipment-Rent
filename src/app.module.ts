@@ -5,6 +5,10 @@ import { UsersModule } from './users/users.module';
 import { CommentModule } from './comment/comment.module';
 import { OrderModule } from './order/order.module';
 import { EquipmentModule } from './equipment/equipment.module';
+import { User } from './users/users.model';
+import { Order } from './order/order.model';
+import { Comment } from './comment/comment.model';
+import { Equipment } from './equipment/equipment.model';
 
 @Module({
   imports: [
@@ -18,7 +22,7 @@ import { EquipmentModule } from './equipment/equipment.module';
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
-      models: [],
+      models: [User, Order, Comment, Equipment],
       autoLoadModels: true,
       logging: false,
     }),

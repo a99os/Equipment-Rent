@@ -17,7 +17,7 @@ interface CommentCreationAttrs {
   rating: number;
 }
 
-@Table({ tableName: 'users' })
+@Table({ tableName: 'comment' })
 export class Comment extends Model<Comment, CommentCreationAttrs> {
   @ApiProperty({ example: 1, description: 'Unikal ID' })
   @Column({
