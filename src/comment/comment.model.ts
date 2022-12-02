@@ -60,7 +60,7 @@ export class Comment extends Model<Comment, CommentCreationAttrs> {
   })
   @Column({
     type: DataType.INTEGER,
-    allowNull: false,
+    defaultValue: 0,
   })
   rating: number;
   //=====================================================================

@@ -25,7 +25,6 @@ export class OrderService {
     if (!equipment) {
       throw new HttpException('Equipment topilmadi', HttpStatus.NOT_FOUND);
     }
-    console.log(createOrderDto.start_date);
     const startDate = new Date(createOrderDto.start_date).getTime();
     const endDate = new Date(createOrderDto.end_date).getTime();
 

@@ -9,7 +9,7 @@ import { OrderService } from './order.service';
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}
 
-  @ApiOperation({ summary: 'Foydalanuvchi olish' })
+  @ApiOperation({ summary: 'Buyurtma yozish' })
   @ApiResponse({ status: 200, type: Order })
   @Post()
   create(@Body() createOrderDto: CreateOrderDto) {

@@ -3,6 +3,7 @@ import {
   IsInt,
   IsNotEmpty,
   IsNumber,
+  IsOptional,
   IsString,
   Max,
   Min,
@@ -28,9 +29,9 @@ export class CreateCommentDto {
     example: 5,
     description: 'Qurilmaga qo`yilgan reyting',
   })
+  @IsOptional()
   @IsInt()
   @Min(1)
   @Max(5)
-  @IsNotEmpty()
   readonly rating: number;
 }
