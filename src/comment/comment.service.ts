@@ -53,6 +53,12 @@ export class CommentService {
     equipPrice.save();
     return comment;
   }
+  async getAllComments() {
+    const comments = await this.commentRepository.findAll({
+      include: { all: true },
+    });
+    return comments;
+  }
 }
 interface IRating {
   rating: number;

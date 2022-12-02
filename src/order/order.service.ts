@@ -47,4 +47,10 @@ export class OrderService {
     await order.save();
     return order;
   }
+  async getAllOrders() {
+    const orders = await this.orderRepository.findAll({
+      include: { all: true },
+    });
+    return orders;
+  }
 }

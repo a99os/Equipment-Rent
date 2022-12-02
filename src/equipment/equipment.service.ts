@@ -31,7 +31,9 @@ export class EquipmentService {
   }
 
   async getEquepments() {
-    return this.equipmentRepository.findAll();
+    return this.equipmentRepository.findAll({
+      include: { all: true },
+    });
   }
 
   async update(updateEquipmentDto: UpdateEquipmentDto, image: any, id: number) {
